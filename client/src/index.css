@@ -238,3 +238,49 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--cyan);
   color:var(--text);padding:12px 20px;border-radius:12px;font-size:.85rem;opacity:0;transition:.3s;z-index:200;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== MOBILE NAV STABILITY FIX =====
+   Paste this at the very END of client/src/index.css (it must come last to win).
+   Likely cause of the shaking: the rotating orbit nodes carry hidden tooltips
+   (.tip, white-space:nowrap). As they spin they poke past the screen edge, the
+   page briefly becomes wider than the phone, and the fixed navbar drifts and
+   looks scaled (buttons "growing/shrinking"). */
+
+/* 1. Remove the overflow source on touch screens (no hover there anyway) */
+@media (max-width: 900px) {
+  .node .tip { display: none; }
+}
+
+/* 2. Safety net: the hero can never widen the page sideways */
+.hero { overflow-x: clip; }
+html, body { max-width: 100%; overflow-x: hidden; }
+body { position: relative; }
+
+/* 3. Pin the navbar to its own layer, full width, so it can't drift */
+nav {
+  left: 0; right: 0; width: 100%;
+  -webkit-transform: translateZ(0); transform: translateZ(0);
+}
+.navrow { gap: 12px; }
+.navactions { flex: none; }
+
+/* 4. Fixed-size icon buttons: never resize or shift */
+.iconbtn, .hamburger {
+  flex: none; width: 36px; height: 36px; padding: 0;
+  align-items: center; justify-content: center;
+}
+@media (max-width: 900px) {
+  .hamburger { display: flex; }
+}
+
+/* 5. No hover-grow / transition on Login, Sign Up, Logout buttons */
+nav .btn, nav .btn:hover, nav .btn:active,
+.mobilemenu .btn, .mobilemenu .btn:hover, .mobilemenu .btn:active {
+  transition: none; transform: none; filter: none;
+}
+.mobilemenu .btn { justify-content: center; }
+
+/* 6. Touch phones keep "sticky" hover after a tap - switch that off */
+@media (hover: none) {
+  .btn-primary:hover { transform: none; filter: none; }
+}

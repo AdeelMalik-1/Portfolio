@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { techA, techB } from '../data/projectsData.js';
 
-const roles = ['Full Stack Developer'];
+const roles = ['Full Stack Developer', 'AI Engineer', 'Software Engineer'];
 
 function OrbitRing({ list, radius, reverse }) {
   return (
@@ -54,7 +54,10 @@ export default function Hero() {
         <p className="desc">I design and build fast, scalable full‑stack applications with React, Node.js, Express and MongoDB — from idea to deployment.</p>
         <div className="hero-actions">
           <a className="btn btn-primary" href="/#projects">View My Work</a>
-          <span className="btn btn-ghost btn-disabled" aria-disabled="true">Download Resume</span>
+          <a className="btn btn-ghost" href="/Adeel_CV.pdf" download>
+            Download Resume
+          </a>
+
           <a className="btn btn-ghost" href="/#contact">Let's Talk</a>
         </div>
         <div className="socials">
